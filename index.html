@@ -4,29 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TEAM 35: Project Proposal</title>
-<style>body{font-family:Arial,sans-serif;margin:0;padding:0;background-color:#f4f4f4}header{background-color:#333;color:#fff;text-align:center;padding:1rem 0}.logo{max-width:150px;margin:0 auto;display:block}section{padding:2rem;background-color:#fff;margin:1rem;border-radius:5px;box-shadow:0 0 10px rgba(0,0,0,.1)}h2{border-bottom:2px solid #333;padding-bottom:.5rem;margin-bottom:1rem}ol{margin-left:1.5rem}footer{text-align:center;padding:1rem 0;background-color:#333;color:#fff}.team-members{font-weight:bold;margin-top:1rem}</style>
+<link rel="stylesheet" href="styles.css">
 </head>
-<body>
 <header>
 <h1>CS7641 ML - TEAM 35: Project Proposal</h1>
 <p class="team-members">Team Members: Rachit Chadha, Khalid Shaik, Mini Jain, Asmit Kumar Singh, Amrit Khera</p>
 </header>
 <section id="introduction">
 <h2>Introduction/Background</h2>
-<p>The best performing existing technology that we could use is Google Lens. We can clearly see that although Google lens (https://lens.google.com/)  performs greatly in translating the image and retaining the content of the image. But it makes no special effort to match the style or the feel of the image, we notice 2 things. The area around the text is completely blurred/opaqued by matching the closest similar background color. The style of the text is not retained at all and a standard font is used with a simple font color change, and in the second row, even font color is not retained and it is switched to default black as demonstrated in the Figure 1(b). For text removal from image, there are some existing mathematical baselines. One of the most common techniques used as a baseline for image inpainting is FMM (Fast Marching Method). It was first proposed by Alexandru Telea in his work [4] In this method, let ”A” denote the region to be inpainted and deltaA be the boundary of region A. In this method, we start from deltaA and we gradually dig inside the A, filling everything in the boundary first. This pixel is iteratively replaced by all the normalized weighted sum of all the nearby pixels. More importance is given to the pixels which are closer to the normal of the boundary or lying on the boundary contours. Once a pixel is inpainted, it finds the next nearest neighbor using FMM. But since we want to approach this problem as an image translation inpainting, we look at image translation papers. Another Approach given by Liu G [3], in which proposes use of partial Convolution Networks. Till Now, most of the existing deep learning based image inpainting methods use the standard convolution method over the corrupted image, using convolutional filters conditioned on both valid pixels and substitute values in the masked region. This method causes color discrepancy and blurriness in the region inpainted. In their work, they used partial convolution methods, where the convolution is conditioned and then masked only on the valid pixels. All papers till now, require prior information of the mask, or the text localisation but [6], proposes a conditional GAN based approach and a lateral connection structure to effectively capture context information and optimizes multi scale regression loss and content loss to effectively generate the output. We also propose to apply [1], as explained in the following section, to attach this text erase problem as an image translation task. 
+<p>We have all experienced the curiosity that arises while watching anime, pondering the true meaning of the text displayed within the episodes. Textual visuals are frequently employed in anime to introduce new episodes, conclude existing ones, or transition between different storylines, as illustrated in the figure below. These textual elements play a pivotal role in the overall viewing experience. Therefore, it would be immensely beneficial if this text could be seamlessly translated and integrated into the video, preserving its original style, including factors like color and font, while altering the content itself.
 </p>
-<p>For text style translation we find the following literature. Since we approach this problem as an image translation model, we implement [1]. Pix2Pix is a conditional adversarial network based approach, which acts as a general purpose solution for image to image translation task. Pix2Pix is able to learn image to image mapping, as well as the loss function to learn it. The architecture makes use of a U-net generator with skip connections and a Markovian Patch-GAN based discriminator. We also look at cycleGAN [5] for image translation, this architecture learns mapping between 2 different sets and not pairwise images, this approach is useful when image to image mapping is not present. This method makes use of 2 generator and 2 discriminator networks, for 2 sided learning between the two image sets. We do not use this approach since we have pairwise training data, and want to learn features unique to a pair of images. [2] approaches the problem of text style transfer from english to chinese characters. Their network FTransGAN can transfer font styles between different languages. They use multi level attention based architectures to capture local and global style features, the generator takes the style font and content font images and generates an output, which the style and the content discriminators try to differentiate as real or fake.
+<p>The potential applications of solving this challenge extend beyond anime. It encompasses translating movie or show posters effortlessly into the desired language, making real-time text translations accessible while exploring new places or shopping.		
 </p>
 </section>
 <section id="problem-definition">
 <h2>Problem Definition</h2>
-<p>Why there is a problem here or what is the motivation of the project?</p>
+<p>The primary objective of this project is to transform a provided Japanese image, including posters, anime frames, or images from real-world scenarios, into an English counterpart while preserving the essence, meaning, and visual style of the original image. For a visual representation of this process, please refer to the figure below. This intricate challenge can be deconstructed as a pipeline of multiple steps as shown here.
+</p>
+<p>The OCR and translation models have been a center of many research problems, and hence is a problem not worth exploring, since there is no significant improvement in this aspect left .The primary objective of the text eraser model is to detect and remove any textual elements within the image, subsequently filling the void seamlessly to maintain the image's integrity.  The text-inpainting and text-erasure is also a solved problem. Below you can see DALLE performing the task efficiently. There exist other mathematical models like Naive Strokes, Fast marching and techniques like FSR.<add models and references >. Hence the primary focus of our project would be on the Inter Language font transfer model.
+</p>
 </section>
 <section id="methods">
 <h2>Methods</h2>
-<p>As we are attempting a novel problem, first of all we needed to generate a dataset. For dataset generation, first we have scrapped images using Bing API, which can act as background images. After that, we created a dictionary which consists of Japanese words with English translation. Then, we have converted fonts into images, and finally produced corrupted images. Now, our main goal is to remove text from these images and translate the removed Japanese text into English (it can work for any language, if trained), using style transfer and rewriting this translated text on image. 
-</p>
-<p>For removing the Japanese text from the image and repainting the background, we plan to leverage a conditional GAN based approach and a lateral connection structure to effectively capture context information and optimize multi scale regression loss and content loss to effectively generate the output as proposed in [3]. Since we are approaching this problem as an image translation model, we will implement [1]. Pix2Pix is a conditional adversarial network based approach, which acts as a general purpose solution for image to image translation task. In our case, the pairwise images will be the Japanese font style and the corresponding English alphabet in that style.The output of the style transfer will be overlaid on the unpainted image as the final result. </p>
+<p>As we are attempting a novel problem...</p>
 </section>
 <section id="results-discussion">
 <h2>Potential Results and Discussion</h2>
@@ -50,14 +50,14 @@
 </section>
 <section id="checkpoint">
 <h2>Checkpoint</h2>
-<p>You are required to have your dataset ready when you submit your proposal...</p>
+<p>You are required to have your dataset ready when you submit your proposal.</p>
 </section>
 <section id="presentation">
 <h2>Presentation</h2>
 <p>Placeholder for video presentation link.</p>
 </section>
 <footer>
-<p>Authors : Group 35 </p>
+<p>Authors : Rachit Chadha, Khalid Shaik, Mini Jain, Asmit Kumar Singh, Amrit Khera @Georgia Tech</p>
 </footer>
 </body>
 </html>
