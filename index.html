@@ -32,18 +32,18 @@ background-color: #032833;
 <section id="problem-definition">
 <h2>Problem Definition</h2>
 <p>The objective of this project is to transform a Japanese image, including posters, anime frames, or real-world images, into English while preserving the essence, meaning, and visual style of the original image. This intricate challenge can be deconstructed into a pipeline as shown below.</p>
-<img src="img/pd.png" alt="Problem pipeline" height="300" width="800" style="padding-left: 15%;">
+<img src="img/pd.png" alt="Problem pipeline" height="300" width="800" style="padding-left: 12%;">
 <p>The OCR and translation models have been the center of many research problems, and hence it's a solved problem, with no significant scope for improvement. The text eraser model detects and removes any textual elements within the image and fills the void seamlessly, maintaining the image's integrity, and is efficiently performed by models like DALLE. Hence, the primary focus of our project would be the Inter-Language font transfer model.</p>
 </section>
 <section id="Dataset">
 <h2>Dataset</h2>
-<img src="img/dataset.png" alt="Figure 1. Dataset Creation" height="350" width="850" style="padding-left: 15%;">
+<img src="img/dataset.png" alt="Figure 1. Dataset Creation" height="350" width="850" style="padding-left: 12%;">
 <p>The methodologies that we'll be trying require 2 sets of images, the input and the target. The image translation models will learn the given Japanese text style and apply it to the translated English characters to get English text in the original style. Hence the model needs information on both the content and style of the image. The figure shows the process of our dataset creation with font .ttf files as our starting point, sourced from font websites like <a href=https://www.freejapanesefont.com>freejapanesefont</a>, to generate our sample input and output pairs. The input image tries to capture the style using 8 of the given Japanese font characters, while the input English character is passed in the middle. We have created a 100-sample dataset and we'll be expanding as per the training needs.</p>
 </section>
 <section id="methods">
 <h2>Methods</h2>
 <p><h3 style="text-align:center";><u><b>1.</b>Pix2Pix / Pix2PixHD</u></h3></p><br>
-<img src="img/p2p1.png" alt="Figure 2. Pix2Pix image translation example" height="300" width="800" style="padding-left: 15%;">
+<img src="img/p2p1.png" alt="Figure 2. Pix2Pix image translation example" height="300" width="800" style="padding-left: 12%;">
 <p>Pix2pix is an image-to-image translation model, that translates the style (scene) of an image to another representation [1].</p>
 <p>It's based on a Conditional Generative Adversarial Network (cGAN) architecture where a generator and discriminator are trained simultaneously in a min-max fashion. Pix2PixHD is an extension of Pix2Pix for higher resolution images using a multiscale generator [2], trained as shown in Fig 3.</p><br>
 <img src="img/p2p2.png" alt="Figure 3. Pix2Pix Training procedure. (a) Generator Training (b) Discriminator Training" height="500" width="1000" style="padding-left: 10%;">
