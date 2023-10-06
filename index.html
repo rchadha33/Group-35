@@ -7,35 +7,56 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <header>
-<h1>CS7641 ML - TEAM 35: Project Proposal</h1>
-<p class="team-members">Team Members: Rachit Chadha, Khalid Shaik, Mini Jain, Asmit Kumar Singh, Amrit Khera</p>
+<h1 style="color: mediumaquamarine;">Team 35 <text style="color: white"> Project Proposal</h1> 
+<CS style="color: mediumaquamarine"><em>CS 7641</em></CS> Team Members: Rachit Chadha, Khalid Shaik, Mini Jain, Asmit Kumar Singh, Amrit Khera
 </header>
+<style> 
+    button { 
+background-color: #032833;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration:rgba(255, 255, 255, 0.1);
+  display: inline-block;
+  font-size: 16px; 
+    } 
+  </style> 
 <section id="introduction">
 <h2>Introduction/Background</h2>
 <p>We have all experienced that curiosity that arises while watching anime, pondering the meaning of the text displayed within the episodes. Animes frequently employ textual visuals to introduce new storylines or conclude existing ones, and these elements play a pivotal role in the overall viewing experience. Therefore, it would be immensely beneficial if this text could be seamlessly translated and integrated into the video, preserving its original style, including the color and font, while altering the content itself.</p>
 <p>The potential applications of solving this challenge extend beyond anime, to translating movie or show posters effortlessly into the desired language, making real-time text translations accessible and natural.</p>
+<br><br> <button style="margin-left: 35%;"><a href="https://github.com/rchadha33/Group-35">Here is a Link To Our Github Repository</a></button>
 </section>
 <section id="problem-definition">
 <h2>Problem Definition</h2>
 <p>The objective of this project is to transform a Japanese image, including posters, anime frames, or real-world images, into English while preserving the essence, meaning, and visual style of the original image. This intricate challenge can be deconstructed into a pipeline as shown below.</p>
+<img src="/Users/rachit/Documents/GitHub/ml.github.io/img/pd.png" alt="Problem pipeline" height="300" width="800" style="padding-left: 15%;">
 <p>The OCR and translation models have been the center of many research problems, and hence it's a solved problem, with no significant scope for improvement. The text eraser model detects and removes any textual elements within the image and fills the void seamlessly, maintaining the image's integrity, and is efficiently performed by models like DALLE. Hence, the primary focus of our project would be the Inter-Language font transfer model.</p>
 </section>
 <section id="Dataset">
 <h2>Dataset</h2>
+<img src="/Users/rachit/Documents/GitHub/ml.github.io/img/dataset.png" alt="Figure 1. Dataset Creation" height="350" width="850" style="padding-left: 15%;">
 <p>The methodologies that we'll be trying require 2 sets of images, the input and the target. The image translation models will learn the given Japanese text style and apply it to the translated English characters to get English text in the original style. Hence the model needs information on both the content and style of the image. The figure shows the process of our dataset creation with font .ttf files as our starting point, sourced from font websites like <a href=https://www.freejapanesefont.com>freejapanesefont</a>, to generate our sample input and output pairs. The input image tries to capture the style using 8 of the given Japanese font characters, while the input English character is passed in the middle. We have created a 100-sample dataset and we'll be expanding as per the training needs.</p>
 </section>
 <section id="methods">
 <h2>Methods</h2>
-<p><em><b>Pix2Pix / Pix2PixHD</b></em></p><br>
-<p>Pix2pix is an image-to-image translation model, that translates the style (scene) of an image to another representation [1].</p><br>
+<p><h3 style="text-align:center";><u><b>1.</b>Pix2Pix / Pix2PixHD</u></h3></p><br>
+<img src="/Users/rachit/Documents/GitHub/ml.github.io/img/p2p1.png" alt="Figure 2. Pix2Pix image translation example" height="300" width="800" style="padding-left: 15%;">
+<p>Pix2pix is an image-to-image translation model, that translates the style (scene) of an image to another representation [1].</p>
 <p>It's based on a Conditional Generative Adversarial Network (cGAN) architecture where a generator and discriminator are trained simultaneously in a min-max fashion. Pix2PixHD is an extension of Pix2Pix for higher resolution images using a multiscale generator [2], trained as shown in Fig 3.</p><br>
-<p><em><b>CycleGAN</b></em></p><br>
+<img src="/Users/rachit/Documents/GitHub/ml.github.io/img/p2p2.png" alt="Figure 3. Pix2Pix Training procedure. (a) Generator Training (b) Discriminator Training" height="500" width="1000" style="padding-left: 10%;">
+<br><br>
+<p><h3 style="text-align:center";><u><b>2. </b>CycleGAN</u></h3></p>
 <p>CycleGAN is also a cGAN like Pix2Pix designed for unpaired image-image translation tasks when paired training data is unavailable [3]. </p><br>
+<img src="/Users/rachit/Documents/GitHub/ml.github.io/img/cg1.png" alt="Figure 4. CycleGAN image translation example" height="300" width="900" style="padding-left: 10%;">
 <p>CycleGAN follows a similar training pattern as Pix2Pix with 2 generators and discriminators in a cyclic manner instead of a single one:</p>
+<img src="/Users/rachit/Documents/GitHub/ml.github.io/img/cg2.png" alt="Figure 5. CycleGAN training where G,F are generators and Dx and Dy are discriminators" height="300" width="800" style="padding-left: 18%;">
 </section>
 <section id="Proposed Methodology">
 <h2>Proposed Methodology</h2>
 <p>Our methodology uses these state-of-the-art cGAN models to transfer the <em>style</em> of Japanese characters in visual media to English. </p><br>
+<img src="/Users/rachit/Documents/GitHub/ml.github.io/img/pm1.png" alt="Figure 6. Proposed Methodology" height="450" width="1000" style="padding-left: 10%;">
 <p><h3>Steps:</h3></p>
 <ol>
     <li>Extract and translate Japanese text from the input image to English.</li>
@@ -45,6 +66,7 @@
 </ol>
 
 </section>
+
 <section id="references">
 <h2>References</h2>
 <ol>
@@ -53,24 +75,24 @@
 <li>[3] Zhu, Jun-Yan, et al. "Unpaired image-to-image translation using cycle-consistent adversarial networks." <i>Proceedings of the IEEE international conference on computer vision. 2017.</i></li>
 </ol>
 </section>
+
 <section id="timeline">
 <h2>Proposed Timeline</h2>
-<p>Placeholder for Gantt Chart.</p>
+<img src="/Users/rachit/Documents/GitHub/ml.github.io/img/gantOverview.png" alt="High Level Gantt" height="300" width="900" style="padding-left: 15%;">
+<br><br><button style="margin-left: 35%;"><a href="/Users/rachit/Documents/GitHub/ml.github.io/Project Timeline.xlsx">Click here for a Detailed view of the Gantt Chart</a></button>
 </section>
 <section id="contribution-table">
 <h2>Contribution Table</h2>
-<p>Placeholder for Contribution Table.</p>
+<img src="/Users/rachit/Documents/GitHub/ml.github.io/img/contribution.png" alt="contribution-table" height="300" width="900" style="padding-left: 15%;">
+
 </section>
-<section id="checkpoint">
-<h2>Checkpoint</h2>
-<p>You are required to have your dataset ready when you submit your proposal.</p>
-</section>
+
 <section id="presentation">
 <h2>Video Presentation</h2>
-<p>Placeholder for video presentation link.</p>
+<button style="margin-left: 45%;"><a href="dummylink">Video Presentation Link</a></button><br>
 </section>
 <footer>
-<p>Authors : Rachit Chadha, Khalid Shaik, Mini Jain, Asmit Kumar Singh, Amrit Khera @Georgia Tech</p>
+<p>Authors MSCS @Georgia Tech: Rachit Chadha, Khalid Shaik, Mini Jain, Asmit Kumar Singh, Amrit Khera</p>
 </footer>
 </body>
 </html>
