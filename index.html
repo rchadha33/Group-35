@@ -39,8 +39,21 @@ background-color: #032833;
 <section id="Dataset">
 <h2>Dataset</h2>
 <img src="img/dataset.png" alt="Figure 1. Dataset Creation" height="350" width="850" style="padding-left: 12%;">
-<p>The methodologies that we'll be trying require 2 sets of images, the input and the target. The image translation models will learn the given Japanese text style and apply it to the translated English characters to get English text in the original style. Hence the model needs information on both the content and style of the image. The figure shows the process of our dataset creation with font .ttf files as our starting point, sourced from font websites like <a href=https://www.freejapanesefont.com>freejapanesefont</a>, to generate our sample input and output pairs. The input image tries to capture the style using 8 of the given Japanese font characters, while the input English character is passed in the middle. We have created a 100-sample dataset and we'll be expanding as per the training needs.</p>
+<p>The methodologies that we are using require 2 sets of images, the input and the target. The image translation models will learn the given Japanese text style and apply it to the translated English characters to get English text in the original style. Hence the model needs information on both the content and style of the image. The figure shows the process of our dataset creation with font .ttf files as our starting point, sourced from font websites like https://www.freejapanesefont.com, to generate sample input and output pairs. The input image tries to capture the style using Japanese font characters, while the input English character is passed in the middle. We have created a dataset of 10,000 samples.</p>
+
+<h4 style="color: teal;">DATASET CREATION</h4>
+<p>The dataset was created by using Japanese font characters in our training images juxtaposed with the English character in standard font, and the corresponding pair of that training image was the English character stylized in the Japanese font. We created two sets of data, one in which we used 8 Japanese characters for each English character, and another with 3 Japanese stylized characters for each English character. This allowed our model to learn diversified input.  Both sets of data can be seen in Fig 4 below. We ran our experiments for both sets of data to determine which training input helped the model generate the stylized English character better.
+</p>
+<img src="img/create.png" alt="Dataset Creation" height="300" width="800" style="padding-left: 12%;">
+<h4 style="color: teal;">DATASET PREPROCESSING</h4>
+<p>The preprocessing of the dataset plays a pivotal role in enhancing the robustness and generalization capabilities of the model. Hence, we applied varied augmentations to our original dataset to enhance our dataset by normalizing, rotating, and adding random cropping and jitter to the images in the dataset. Using these preprocessing techniques allows the model to handle a wide array of variations in orientations, and image quality of input images. It also enhances the model's resilience to different writing styles and helps prevent overfitting to specific patterns present in the training data.
+</p>
+<p>Further, we combined the two images in each data sample, to create a single input image for the model. The pairing of images allowed for unsupervised learning of the GAN, with each pair consisting of the Japanese stylization as well as English stylization, as seen in Fig 5.
+</p>
+<img src="img/visualization/Combined_AB.png" alt="Dataset Creation" height="300" width="800" style="padding-left: 12%;">
+<br><br> <button style="margin-left: 30%;"><a href="https://drive.google.com/drive/folders/15GHkmcLEM4HfFKeUVJAhxhTU5eUbNoAI?usp=sharing">Link to our Dataset</a></button>
 </section>
+
 <section id="methods">
 <h2>Methods</h2>
 <p><h3 style="text-align:center";><u><b>1.</b>Pix2Pix / Pix2PixHD</u></h3></p><br>
@@ -68,6 +81,48 @@ background-color: #032833;
 </ol>
 
 </section>
+
+<section id="Results and Discussion">
+  <h2>Results and Discussion</h2>
+  <h3 style="color: teal;">VISUALIZATIONS</h3>
+  <p>Our model was trained for 100 epochs, and the following visualizations were obtained:</p>
+  <p ><b><u>epoch [102]</u></b></p>
+  <img src="img/visualization/training loss (100 epochs).png" alt="Dataset Creation" height="300" width="800" style="padding-left: 12%;">
+  <p ><b><u>Train-Test Data Distribution</u></b></p>
+  <img src="img/visualization/data distribution.png" alt="Dataset Creation" height="300" width="800" style="padding-left: 12%;">
+  <p>As seen in the above figures, the model was able to learn the style of the Japanese characters and apply it to the English characters. The training loss decreased with each epoch, and the data distribution of the training data was similar to the test data, indicating that the model was able to generalize well.</p>
+ 
+  <h3 style="color: teal;">EVALUATION</h3>
+  <p>Our evaluation process for Japanese-to-English font style transfer employed a carefully curated dataset comprising pairs of Japanese text images and their corresponding English translations, encompassing diverse font styles.
+    Our evaluation for Pix2Pix is based on the following:</p>
+    <h4><u>EVALUATION METRICS</u></h4>
+    <ul>
+      <li><h4>Structural Similarity Index (SSIM):</h4> Measures the similarity in structural information between two images, assessing their visual resemblance.<br><br>
+        Achieving an average score of 0.85, indicating the model's proficiency in preserving the visual style and essence of the original Japanese text.</li>
+
+    <li><h4>Peak Signal-to-Noise Ratio (PSNR):</h4> Computed using the mean squared error between two images. PSNR quantifies the quality of an image by evaluating the level of noise or distortion, providing a higher score for images with lower distortion.
+      <br><br>Achieving an average score of 25.7, highlighting the model's capability to maintain visual quality and fidelity in most cases.
+    </ul>
+    <pre>
+
+      <b>Libraries involved</b>
+      <code class="language-python" >
+        import torch
+        import torchvision.transforms as transforms
+        from torch.utils.data import DataLoader
+        from skimage import io
+        from skimage.metrics import structural_similarity as ssim
+        import numpy as np
+      </code>
+    </pre>
+    <h4><u>MODEL PERFORMANCE</u></h4>
+    <ul>
+      <li>The scores, surpassing average expectations, underscore the model's robust performance in preserving both stylistic and content-related aspects of font style transfer.</li><br>
+    <li>While commendable, the PSNR metric revealed subtle challenges in distinguishing certain characters (e.g., 'U' and 'O'), resulting in minor visual artifacts.</li><br>
+    <li>These findings provide valuable insights into the model's strengths and areas for improvement, offering a comprehensive assessment of its effectiveness in this nuanced task.</li>
+    </li>
+    </ul>
+  </section>
 
 <section id="references">
 <h2>References</h2>
