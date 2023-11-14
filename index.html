@@ -84,32 +84,7 @@ background-color: #032833;
 
 <section id="Results and Discussion">
   <h2>Results and Discussion</h2>
-  <h3 style="color: teal;">Pix2Pix Image Results</h3>
-  <p>Our model was trained for 100 epochs, and the following results were obtained:</p>
-  <div style="display: flex; justify-content: center;">
-    <div style="flex: 1;">
-      <p style="text-align:center;"><b><u>Training Image (Format: 100_real_A)</u></b></p>
-      <p style="display:flex; justify-content:center;">
-        <img src="img/visualization/127_real_A.png" alt="Dataset Creation" height="300" width="300">
-      </p>
-    </div>
-    <div style="flex: 1;">
-      <p style="text-align:center;"><b><u>Testing Image (Format: 100_real_B)</u></b></p>
-      <p style="display:flex; justify-content:center;">
-        <img src="img/visualization/127_real_B.png" alt="Dataset Creation" height="300" width="300">
-      </p>
-    </div>
-    <div style="flex: 1;">
-      <p style="text-align:center;"><b><u>Generated Image (Format: 100_fake_B)</u></b></p>
-      <p style="display:flex; justify-content:center;">
-        <img src="img/visualization/127_fake_B.png" alt="Dataset Creation" height="300" width="300">
-      </p>
-    </div>
-  </div>
 
-  <br><br> <button style="margin-left: 30%;"><a href="https://drive.google.com/drive/folders/1by3UMcQvKpnXnZu7HRWcjfMXD4SvoMNV?usp=drive_link">Link to our Resulting Images</a></button>
-
-  <h3 style="color: teal;">INSIGHTS</h3>
   <img src="img/visualization/Epoch 100 Sample.png" alt="Dataset Creation" height="500" width="900" style="padding-left: 12%;">
 
   <p>We can see that the pix2pix model is able to learn the mapping between the english character in japanese font, and the inputted characters to a great extent. The model is able to learn that the central character in the input image is the character that needs to be translated, while the 8 characters around the english character are there for style and font cues. The model is able to pick up and learn from the target character. The algorithm is able to capture the color and the curves of the target character successfully for some characters. But for some characters like Z the edges are not as sharp as intended, so some more experimentation is required there.
