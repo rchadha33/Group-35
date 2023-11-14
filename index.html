@@ -70,7 +70,7 @@ background-color: #032833;
 </section>
 <section id="Proposed Methodology">
 <h2>Proposed Methodology</h2>
-<p>Our methodology uses these state-of-the-art cGAN models to transfer the <em>style</em> of Japanese characters in visual media to English. </p><br>
+<p>Our methodology uses these state-of-the-art cGAN models (Pix2Pix, Cycle GAN) to transfer the <em>style</em> of Japanese characters in visual media to English. </p><br>
 <img src="img/pm1.png" alt="Figure 6. Proposed Methodology" height="450" width="1000" style="padding-left: 10%;">
 <p><h3>Steps:</h3></p>
 <ol>
@@ -84,7 +84,7 @@ background-color: #032833;
 
 <section id="Results and Discussion">
   <h2>Results and Discussion</h2>
-
+    <p>Till now, we have experimented with the Pix2Pix models for 2 different dataset configurations. We tried the 3jap+1eng and 8jap+1eng configurations. The 3jap+1eng results were significantly bad and the model did not seem to understand the difference between the target character and the style japanese characters. Therefore we went ahead with the 8jap+1eng model which we trained over 100 epochs and 10,000 training samples.</p>
   <img src="img/visualization/Epoch 100 Sample.png" alt="Dataset Creation" height="500" width="900" style="padding-left: 12%;">
 
   <p>We can see that the pix2pix model is able to learn the mapping between the english character in japanese font, and the inputted characters to a great extent. The model is able to learn that the central character in the input image is the character that needs to be translated, while the 8 characters around the english character are there for style and font cues. The model is able to pick up and learn from the target character. The algorithm is able to capture the color and the curves of the target character successfully for some characters. But for some characters like Z the edges are not as sharp as intended, so some more experimentation is required there.
