@@ -84,14 +84,76 @@ background-color: #032833;
 
 <section id="Results and Discussion">
   <h2>Results and Discussion</h2>
-  <h3 style="color: teal;">VISUALIZATIONS</h3>
-  <p>Our model was trained for 100 epochs, and the following visualizations were obtained:</p>
-  <p ><b><u>epoch [102]</u></b></p>
-  <img src="img/visualization/training loss (100 epochs).png" alt="Dataset Creation" height="300" width="800" style="padding-left: 12%;">
-  <p ><b><u>Train-Test Data Distribution</u></b></p>
-  <img src="img/visualization/data distribution.png" alt="Dataset Creation" height="300" width="800" style="padding-left: 12%;">
-  <p>As seen in the above figures, the model was able to learn the style of the Japanese characters and apply it to the English characters. The training loss decreased with each epoch, and the data distribution of the training data was similar to the test data, indicating that the model was able to generalize well.</p>
- 
+  <h3 style="color: teal;">Pix2Pix Image Results</h3>
+  <p>Our model was trained for 100 epochs, and the following results were obtained:</p>
+  <div style="display: flex; justify-content: center;">
+    <div style="flex: 1;">
+      <p style="text-align:center;"><b><u>Training Image (Format: 100_real_A)</u></b></p>
+      <p style="display:flex; justify-content:center;">
+        <img src="img/visualization/100_real_A.png" alt="Dataset Creation" height="300" width="300">
+      </p>
+    </div>
+    <div style="flex: 1;">
+      <p style="text-align:center;"><b><u>Testing Image (Format: 100_real_B)</u></b></p>
+      <p style="display:flex; justify-content:center;">
+        <img src="img/visualization/100_real_B.png" alt="Dataset Creation" height="300" width="300">
+      </p>
+    </div>
+    <div style="flex: 1;">
+      <p style="text-align:center;"><b><u>Generated Image (Format: 100_fake_B)</u></b></p>
+      <p style="display:flex; justify-content:center;">
+        <img src="img/visualization/100_fake_B.png" alt="Dataset Creation" height="300" width="300">
+      </p>
+    </div>
+  </div>
+  <br><br> <button style="margin-left: 30%;"><a href="https://drive.google.com/drive/folders/1by3UMcQvKpnXnZu7HRWcjfMXD4SvoMNV?usp=drive_link">Link to our Resulting Images</a></button>
+
+
+  <h3 style="color: teal;">VISUALIZATION ANALYSIS</h3>
+  <p>We trained the pix2pix model for Mapping from set A(including 8 jap and 1 english character) to set B(Target english character in Jap font). We trained the model for 100 epochs. The loss plots can be seen below.
+  </p>
+  <img src="img/visualization/loss.png" alt="Dataset Creation" height="600" width="900" style="padding-left: 12%;"><br>
+  <ol>
+    <li>G_GAN Loss: This loss represents the Generator's ability to create outputs that the Discriminator classifies as real. The G_GAN loss fluctuates over epochs, which is expected as the Generator learns. However, the general trend does not show a clear decrease, indicating that the Generator may struggle to improve in fooling the Discriminator consistently as the model is trained further.
+    </li>
+    <li>
+      G_L1 Loss: The L1 loss typically measures the pixel-wise absolute difference between the generated images and the target images. The plot shows high variability but overall there is a downward trend. This suggests that the Generator is getting better at producing images that are closer to the target on average. Yet, the high variance implies there may be epochs where the model significantly diverges from the target, which could be a sign of instability in learning.
+    </li>
+    <li>
+      D_real Loss: This metric reflects how well the Discriminator recognizes real images. The loss seems to have significant spikes but trends downward overall, which suggests that the Discriminator is becoming more proficient at identifying real images. The spikes could indicate moments where the Discriminator's performance varies greatly, possibly due to changes in the Generator's outputs or due to the inherent variability of the training data.
+    </li>
+    <li>
+      D_fake Loss: This loss measures the Discriminator's ability to detect fake images from the Generator. The plot shows a downward trend, indicating that the Discriminator is improving at distinguishing fake images over time. However, like the D_real loss, there is some volatility, suggesting that the model may have epochs where its performance degrades, which is common in adversarial training as the two networks are in a constant tug-of-war.
+    </li>
+  </ol>
+
+  <h3 style="color: teal;">INSIGHTS</h3>
+  <ul>
+    <li>Stability: The fluctuations in loss suggest that the training process could be unstable. Techniques to stabilize training might be helpful, such as adjusting learning rates, using different optimizers, or incorporating regularization methods.
+    </li>
+    <li>
+      Overfitting: If the G_L1 loss is decreasing but the G_GAN loss is not improving, it could mean the Generator is overfitting to the pixel-wise error but not learning to generate more realistic images. This could be mitigated by including more varied data or using data augmentation.
+    </li>
+    <li>
+      Hyperparameter Tuning: Given the variability and trends, hyperparameter tuning might help. Adjusting the balance between the G_GAN and G_L1 loss components could provide better overall convergence.
+    </li>
+    <li>
+      Evaluation Metrics: Besides these loss plots, consider using additional evaluation metrics such as Inception Score or FID (Fréchet Inception Distance) to better understand the quality of the generated images.
+    </li>
+  </ul>
+  <img src="img/visualization/Epoch 100 Sample.png" alt="Dataset Creation" height="500" width="900" style="padding-left: 12%;">
+
+  <p>We can see that the pix2pix model is able to learn the mapping between the english character in japanese font, and the inputted characters to a great extent. The model is able to learn that the central character in the input image is the character that needs to be translated, while the 8 characters around the english character are there for style and font cues. The model is able to pick up and learn from the target character. The algorithm is able to capture the color and the curves of the target character successfully for some characters. But for some characters like Z the edges are not as sharp as intended, so some more experimentation is required there.
+  </p>
+  <p>The model is not perfect yet. We can see that it is failing  to understand the difference between some similar characters like “O” and “Q”, or “O” and “D”. The model is also not yet able to capture very complex styles like the shaded “B” yet.
+  </p>
+  <img src="img/visualization/failed.png" alt="Dataset Creation" height="350" width="700" style="padding-left: 20%;">
+
+  <p>To see the progress of model learning. We plot some characters after just 5 epochs. We can see that the model seems to be learning like a child, trying to understand the shape of the characters, during the initial epochs.
+  </p>
+  <img src="img/visualization/epoch=5.png" alt="Dataset Creation" height="350" width="700" style="padding-left: 20%;">
+
+
   <h3 style="color: teal;">EVALUATION</h3>
   <p>Our evaluation process for Japanese-to-English font style transfer employed a carefully curated dataset comprising pairs of Japanese text images and their corresponding English translations, encompassing diverse font styles.
     Our evaluation for Pix2Pix is based on the following:</p>
@@ -118,7 +180,7 @@ background-color: #032833;
     <h4><u>MODEL PERFORMANCE</u></h4>
     <ul>
       <li>The scores, surpassing average expectations, underscore the model's robust performance in preserving both stylistic and content-related aspects of font style transfer.</li><br>
-    <li>While commendable, the PSNR metric revealed subtle challenges in distinguishing certain characters (e.g., 'U' and 'O'), resulting in minor visual artifacts.</li><br>
+    <li>While commendable, the PSNR metric revealed subtle challenges in distinguishing certain characters (e.g., 'Q' and 'O'), resulting in minor visual artifacts.</li><br>
     <li>These findings provide valuable insights into the model's strengths and areas for improvement, offering a comprehensive assessment of its effectiveness in this nuanced task.</li>
     </li>
     </ul>
