@@ -68,6 +68,14 @@ background-color: #032833;
 <img src="img/cg1.png" alt="Figure 4. CycleGAN image translation example" height="300" width="900" style="padding-left: 10%;">
 <p>CycleGAN follows a similar training pattern as Pix2Pix with 2 generators and discriminators in a cyclic manner instead of a single one:</p>
 <img src="img/cg2.png" alt="Figure 5. CycleGAN training where G,F are generators and Dx and Dy are discriminators" height="300" width="800" style="padding-left: 18%;">
+<img src="image_2023-12-05_140838270.png" alt="Figure 5.2 CycleGAN model contains two mapping functions G : X → Y and F : Y → X, and associated adversarial
+discriminators DY and DX. DY encourages G to translate X into outputs indistinguishable from domain Y , and vice versa
+for DX and F" height="300" width="800" style="padding-left: 18%;">
+    
+CycleGAN presents a method that can learn capture special characteristics of one image collection and figuring out how these characteristics could be
+translated into the other image collection, all in the absence
+of any paired training examples. The key difference here from pix2pix is that the model does not expect a paired dataset. That is it does not expect an image sample of one set to be mapped with an image sample of the other set. Instead it expects 2 larger sets like "Horses", "zebras" etc, and tries to learn a generic mapping between the two sets.
+<img src="img/zebh.jpeg" alt="Figure 4.2. CycleGAN works without one to one image mapping" height="500" width="1000" style="padding-left: 10%;">
 </section>
 <section id="Proposed Methodology">
 <h2>Proposed Methodology</h2>
