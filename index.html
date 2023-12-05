@@ -98,6 +98,20 @@ background-color: #032833;
   </p>
   <img src="img/visualization/epoch=5.png" alt="Dataset Creation" height="400" width="800" style="padding-left: 20%;">
 
+  <h3 style="color: teal;">Model Improvement via Hyperparameter Tuning</h3>
+  <p>We trained the pix2pix model for Mapping from set A(including 8 jap and 1 english character) to set B(Target english character in Jap font). 
+    Earlier we trained the model for 100 epochs and a subset of data, this time we tune the parameters and train the model for 1000 epochs and also employ deeper architectures for the discriminators and generators.
+  </p>
+  <img src="img/visualization/Model_Improvement.png" alt="Dataset Creation" height="600" width="900" style="padding-left: 12%;"><br>
+  <ol>
+    <li>We see a significant improvement as seen above.
+    </li>
+    <li>
+      The model is able to capture the characters and the style much better than before, however it still is a little rough at times as can be seen in the 'B' character.
+      This is an open area for research but training the model even longer till convergence (Requires massive compute and time) can further improve the results.
+    </li>
+  </ol>
+
   <h3 style="color: teal;">VISUALIZATION ANALYSIS</h3>
   <p>We trained the pix2pix model for Mapping from set A(including 8 jap and 1 english character) to set B(Target english character in Jap font). We trained the model for 100 epochs. The loss plots can be seen below.
   </p>
