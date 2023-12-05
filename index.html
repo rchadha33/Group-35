@@ -28,59 +28,59 @@ background-color: #032833;
 <h2>Introduction/Background</h2>
 <p>We have all experienced that curiosity that arises while watching anime, pondering the meaning of the text displayed within the episodes. Animes frequently employ textual visuals to introduce new storylines or conclude existing ones, and these elements play a pivotal role in the overall viewing experience. Therefore, it would be immensely beneficial if this text could be seamlessly translated and integrated into the video, preserving its original style, including the color and font, while altering the content itself.</p>
 <p>The potential applications of solving this challenge extend beyond anime, to translating movie or show posters effortlessly into the desired language, making real-time text translations accessible and natural.</p>
-<br><br><img src="img/intro.png" alt="Problem Sample Intro" height="300" width="800" style="padding-left: 15%;">
-<br><br> <button style="margin-left: 30%;"><a href="https://github.com/rchadha33/Group-35">Here is a Link To Our Github Repository</a></button>
+<br><br><img src="img/intro.png" alt="Problem Sample Intro" height="300" width="800" style="display: block; margin-left: auto; margin-right: auto;">
+<br><br> <button style="display: block; margin-left: auto; margin-right: auto;"><a href="https://github.com/rchadha33/Group-35">Here is a Link To Our Github Repository</a></button>
 </section>
 <section id="problem-definition">
 <h2>Problem Definition</h2>
 <p>The objective of this project is to transform a Japanese image, including posters, anime frames, or real-world images, into English while preserving the essence, meaning, and visual style of the original image. This intricate challenge can be deconstructed into a pipeline as shown below.</p>
-<img src="img/pd.png" alt="Problem pipeline" height="300" width="800" style="padding-left: 12%;">
+<img src="img/pd.png" alt="Problem pipeline" height="300" width="800" style="display: block; margin-left: auto; margin-right: auto;">
 <p>The OCR and translation models have been the center of many research problems, and hence it's a solved problem, with no significant scope for improvement. The text eraser model detects and removes any textual elements within the image and fills the void seamlessly, maintaining the image's integrity, and is efficiently performed by models like DALLE. Hence, the primary focus of our project would be the Inter-Language font transfer model.</p>
 </section>
 <section id="Dataset">
 <h2>Dataset</h2>
-<img src="img/dataset.png" alt="Figure 1. Dataset Creation" height="350" width="850" style="padding-left: 12%;">
+<img src="img/dataset.png" alt="Figure 1. Dataset Creation" height="350" width="850" style="display: block; margin-left: auto; margin-right: auto;">
 <p>The methodologies that we are using require 2 sets of images, the input and the target. The image translation models will learn the given Japanese text style and apply it to the translated English characters to get English text in the original style. Hence the model needs information on both the content and style of the image. The figure shows the process of our dataset creation with font .ttf files as our starting point, sourced from font websites like https://www.freejapanesefont.com, to generate sample input and output pairs. The input image tries to capture the style using Japanese font characters, while the input English character is passed in the middle. We have created a dataset of 10,000 samples.</p>
 
 <h4 style="color: teal;">DATASET CREATION</h4>
 <p>The dataset was created by using Japanese font characters in our training images juxtaposed with the English character in standard font, and the corresponding pair of that training image was the English character stylized in the Japanese font. We created two sets of data, one in which we used 8 Japanese characters for each English character, and another with 3 Japanese stylized characters for each English character. This allowed our model to learn diversified input.  Both sets of data can be seen in Fig 4 below. We ran our experiments for both sets of data to determine which training input helped the model generate the stylized English character better.
 </p>
-<img src="img/create.png" alt="Dataset Creation" height="300" width="800" style="padding-left: 12%;">
+<img src="img/create.png" alt="Dataset Creation" height="300" width="800" style="display: block; margin-left: auto; margin-right: auto;">
 <h4 style="color: teal;">DATASET PREPROCESSING</h4>
 <p>The preprocessing of the dataset plays a pivotal role in enhancing the robustness and generalization capabilities of the model. Hence, we applied varied augmentations to our original dataset to enhance our dataset by normalizing, rotating, and adding random cropping and jitter to the images in the dataset. Using these preprocessing techniques allows the model to handle a wide array of variations in orientations, and image quality of input images. It also enhances the model's resilience to different writing styles and helps prevent overfitting to specific patterns present in the training data.
 </p>
 <p>Further, we combined the two images in each data sample, to create a single input image for the model. The pairing of images allowed for unsupervised learning of the GAN, with each pair consisting of the Japanese stylization as well as English stylization, as seen in Fig 5.
 </p>
-<img src="img/visualization/Combined_AB.png" alt="Dataset Creation" height="300" width="800" style="padding-left: 12%;">
-<br><br> <button style="margin-left: 30%;"><a href="https://drive.google.com/drive/folders/15GHkmcLEM4HfFKeUVJAhxhTU5eUbNoAI?usp=sharing">Link to our Dataset</a></button>
+<img src="img/visualization/Combined_AB.png" alt="Dataset Creation" height="300" width="800" style="display: block; margin-left: auto; margin-right: auto;">
+<br><br> <button style="display: block; margin-left: auto; margin-right: auto;"><a href="https://drive.google.com/drive/folders/15GHkmcLEM4HfFKeUVJAhxhTU5eUbNoAI?usp=sharing">Link to our Dataset</a></button>
 </section>
 
 <section id="methods">
 <h2>Methods</h2>
 <p><h3 style="text-align:center";><u><b>1.</b>Pix2Pix / Pix2PixHD</u></h3></p><br>
-<img src="img/p2p1.png" alt="Figure 2. Pix2Pix image translation example" height="300" width="800" style="padding-left: 12%;">
+<img src="img/p2p1.png" alt="Figure 2. Pix2Pix image translation example" height="300" width="800" style="display: block; margin-left: auto; margin-right: auto;">
 <p>Pix2pix is an image-to-image translation model, that translates the style (scene) of an image to another representation [1].</p>
 <p>It's based on a Conditional Generative Adversarial Network (cGAN) architecture where a generator and discriminator are trained simultaneously in a min-max fashion. Pix2PixHD is an extension of Pix2Pix for higher resolution images using a multiscale generator [2], trained as shown in Fig 3.</p><br>
-<img src="img/p2p2.png" alt="Figure 3. Pix2Pix Training procedure. (a) Generator Training (b) Discriminator Training" height="500" width="1000" style="padding-left: 10%;">
+<img src="img/p2p2.png" alt="Figure 3. Pix2Pix Training procedure. (a) Generator Training (b) Discriminator Training" height="500" width="1000" style="display: block; margin-left: auto; margin-right: auto;">
 <br><br>
 <p><h3 style="text-align:center";><u><b>2. </b>CycleGAN</u></h3></p>
 <p>CycleGAN is also a cGAN like Pix2Pix designed for unpaired image-image translation tasks when paired training data is unavailable [3]. </p><br>
-<img src="img/cg1.png" alt="Figure 4. CycleGAN image translation example" height="300" width="900" style="padding-left: 10%;">
+<img src="img/cg1.png" alt="Figure 4. CycleGAN image translation example" height="300" width="900" style="display: block; margin-left: auto; margin-right: auto;">
 <p>CycleGAN follows a similar training pattern as Pix2Pix with 2 generators and discriminators in a cyclic manner instead of a single one:</p>
-<img src="img/cg2.png" alt="Figure 5. CycleGAN training where G,F are generators and Dx and Dy are discriminators" height="300" width="800" style="padding-left: 18%;">
-<img src="image_2023-12-05_140838270.png" alt="Figure 5.2 CycleGAN model contains two mapping functions G : X → Y and F : Y → X, and associated adversarial
+<img src="img/cg2.png" alt="Figure 5. CycleGAN training where G,F are generators and Dx and Dy are discriminators" height="300" width="800" style="display: block; margin-left: auto; margin-right: auto;">
+<br><img src="img/image_2023-12-05_140838270.png" alt="Figure 5.2 CycleGAN model contains two mapping functions G : X → Y and F : Y → X, and associated adversarial
 discriminators DY and DX. DY encourages G to translate X into outputs indistinguishable from domain Y , and vice versa
-for DX and F" height="300" width="800" style="padding-left: 18%;">
-    
-CycleGAN presents a method that can learn capture special characteristics of one image collection and figuring out how these characteristics could be
-translated into the other image collection, all in the absence
-of any paired training examples. The key difference here from pix2pix is that the model does not expect a paired dataset. That is it does not expect an image sample of one set to be mapped with an image sample of the other set. Instead it expects 2 larger sets like "Horses", "zebras" etc, and tries to learn a generic mapping between the two sets.
-<img src="img/zebh.jpeg" alt="Figure 4.2. CycleGAN works without one to one image mapping" height="500" width="1000" style="padding-left: 10%;">
+for DX and F" height="300" width="800" style="display: block; margin-left: auto; margin-right: auto;">
+ <br>   
+<p>CycleGAN presents a method that can learn capture special characteristics of one image collection and figuring out how these characteristics could be
+  translated into the other image collection, all in the absence
+  of any paired training examples. The key difference here from pix2pix is that the model does not expect a paired dataset. That is it does not expect an image sample of one set to be mapped with an image sample of the other set. Instead it expects 2 larger sets like "Horses", "zebras" etc, and tries to learn a generic mapping between the two sets.</p>
+<img src="img/zebh.jpeg" alt="Figure 4.2. CycleGAN works without one to one image mapping" height="500" width="1000" style="display: block; margin-left: auto; margin-right: auto;">
 </section>
 <section id="Proposed Methodology">
 <h2>Proposed Methodology</h2>
 <p>Our methodology uses these state-of-the-art cGAN models (Pix2Pix, Cycle GAN) to transfer the <em>style</em> of Japanese characters in visual media to English. </p><br>
-<img src="img/pm1.png" alt="Figure 6. Proposed Methodology" height="450" width="1000" style="padding-left: 10%;">
+<img src="img/pm1.png" alt="Figure 6. Proposed Methodology" height="450" width="1000" style="display: block; margin-left: auto; margin-right: auto;">
 <p><h3>Steps:</h3></p>
 <ol>
     <li>Extract and translate Japanese text from the input image to English.</li>
@@ -93,24 +93,26 @@ of any paired training examples. The key difference here from pix2pix is that th
 
 <section id="Results and Discussion">
   <h2>Results and Discussion</h2>
-    <p>Till now, we have experimented with the Pix2Pix models for 2 different dataset configurations. We tried the 3jap+1eng and 8jap+1eng configurations. The 3jap+1eng results were significantly bad and the model did not seem to understand the difference between the target character and the style japanese characters. Therefore we went ahead with the 8jap+1eng model which we trained over 100 epochs and 10,000 training samples.</p>
-  <img src="img/visualization/Epoch 100 Sample.png" alt="Dataset Creation" height="500" width="900" style="padding-left: 12%;">
+  <p>Our results are divided into 2 sections, Pix2Pix and CycleGAN. We have trained both models on the same dataset and have compared the results of both models. We have also tried to improve the results of the models by hyperparameter tuning and training the models for longer epochs. We have also visualized the training process of the models to understand the learning process of the models.</p>
+  <h2 style="color: rgb(6, 53, 53);"><u>1. Pix2Pix</u></h2>
+    <p>We have experimented with the Pix2Pix models for 2 different dataset configurations. We tried the 3jap+1eng and 8jap+1eng configurations. The 3jap+1eng results were significantly bad and the model did not seem to understand the difference between the target character and the style japanese characters. Therefore we went ahead with the 8jap+1eng model which we trained over 100 epochs and 10,000 training samples.</p>
+  <img src="img/visualization/Epoch 100 Sample.png" alt="Dataset Creation" height="500" width="900" style="display: block; margin-left: auto; margin-right: auto;">
 
   <p>We can see that the pix2pix model is able to learn the mapping between the english character in japanese font, and the inputted characters to a great extent. The model is able to learn that the central character in the input image is the character that needs to be translated, while the 8 characters around the english character are there for style and font cues. The model is able to pick up and learn from the target character. The algorithm is able to capture the color and the curves of the target character successfully for some characters. But for some characters like Z the edges are not as sharp as intended, so some more experimentation is required there.
   </p>
   <p>The model is not perfect yet. We can see that it is failing  to understand the difference between some similar characters like “O” and “Q”, or “O” and “D”. The model is also not yet able to capture very complex styles like the shaded “B” yet.
   </p>
-  <img src="img/visualization/failed.png" alt="Dataset Creation" height="400" width="800" style="padding-left: 20%;">
+  <img src="img/visualization/failed.png" alt="Dataset Creation" height="400" width="800" style="display: block; margin-left: auto; margin-right: auto;">
 
   <p>To see the progress of model learning. We plot some characters after just 5 epochs. We can see that the model seems to be learning like a child, trying to understand the shape of the characters, during the initial epochs.
   </p>
-  <img src="img/visualization/epoch=5.png" alt="Dataset Creation" height="400" width="800" style="padding-left: 20%;">
+  <img src="img/visualization/epoch=5.png" alt="Dataset Creation" height="400" width="800" style="display: block; margin-left: auto; margin-right: auto;">
 
   <h3 style="color: teal;">Model Improvement via Hyperparameter Tuning</h3>
   <p>We trained the pix2pix model for Mapping from set A(including 8 jap and 1 english character) to set B(Target english character in Jap font). 
     Earlier we trained the model for 100 epochs and a subset of data, this time we tune the parameters and train the model for 1000 epochs and also employ deeper architectures for the discriminators and generators.
   </p>
-  <img src="img/visualization/Model_Improvement.png" alt="Dataset Creation" height="600" width="900" style="padding-left: 12%;"><br>
+  <img src="img/visualization/Model_Improvement.png" alt="Dataset Creation" height="600" width="900" style="display: block; margin-left: auto; margin-right: auto;"><br>
   <ol>
     <li>We see a significant improvement as seen above.
     </li>
@@ -120,10 +122,10 @@ of any paired training examples. The key difference here from pix2pix is that th
     </li>
   </ol>
 
-  <h3 style="color: teal;">VISUALIZATION ANALYSIS</h3>
+  <h3 style="color: teal;">Pix2Pix Visual Analysis</h3>
   <p>We trained the pix2pix model for Mapping from set A(including 8 jap and 1 english character) to set B(Target english character in Jap font). We trained the model for 100 epochs. The loss plots can be seen below.
   </p>
-  <img src="img/visualization/loss.png" alt="Dataset Creation" height="600" width="900" style="padding-left: 12%;"><br>
+  <img src="img/visualization/loss.png" alt="Dataset Creation" height="600" width="900" style="display: block; margin-left: auto; margin-right: auto;"><br>
   <ol>
     <li>G_GAN Loss: This loss represents the Generator's ability to create outputs that the Discriminator classifies as real. The G_GAN loss fluctuates over epochs, which is expected as the Generator learns. However, the general trend does not show a clear decrease, indicating that the Generator may struggle to improve in fooling the Discriminator consistently as the model is trained further.
     </li>
@@ -138,9 +140,33 @@ of any paired training examples. The key difference here from pix2pix is that th
     </li>
   </ol>
 
+    <h2 style="color: rgb(6, 53, 53);"><u>2. CycleGan</u></h2>
+    <p>We observe that although the cycleGAN model is able to learn some characteristics of the image translation successfully but it is not able to achieve the same level of performance as pix2pix. Some of the decent generated samples from cycleGAN are shown below</p>
+    <img src="img/Cgan1.png" alt="epoch 100" height="200" width="400" style="display: block; margin-left: auto; margin-right: auto;">
+    <p>A clear problem that we see from the model is that it is not able to make out the character it wants to generate. We see the model being confused between L and O in the first image.    </p>
+    <img src="img/Cgan2.png" alt="Confused CGan" height="500" width="800" style="display: block; margin-left: auto; margin-right: auto;">
+    <p>Upon analysis we realize that the model is not performing well due to the lack of pairwise mapping between the characters, and its new complex loss function called the consistency loss. CycleGAN introduces a cycle consistency loss. This loss ensures that an image translated from one domain to the other and back again should resemble the original image. While this is useful for unpaired data, it can be less efficient compared to direct pixel-wise loss (like L1) when paired data is available. Due to this nature the model is trying to preserve some characteristics of the japanese characters in its image, so that in the second half of the consistency loss the model is able to regenerate the image with one english character and 8 japanese characters. Our training and experimentation exposes this flaw of the model architecture
+    </p>
+    <h3 style="color: teal;">CycleGan Visual Analysis</h3>
+    <img src="img/Cgan3.png" alt="Training Loss CGan" height="500" width="800" style="display: block; margin-left: auto; margin-right: auto;">
+    <p>Upon the training loss visualization analysis, we also see that the cycleGAN architecture is confused and the losses spike up and down a lot. This happens because if the model tries to generate a google image for the set B, the generatore responsible for B->A translation performs really badly since it has no visual cues to generate back the initial image. This leads to a deadlock situation in the training, and even with a large number of epochs and hyperparameter tuning the model is not able to really converge.
+    </p>
 
 
-  <h3 style="color: teal;">EVALUATION</h3>
+    <!--
+      <h3 style="color: teal;">NEXT STEPS</h3>
+      For the next steps, we plan on doing the following to bring the project to completion:
+      <ul>
+      <li>We will train and generate results from another state of the art model, CycleGAN as mentinoned in the proposed methods.</li>
+      <li>We'll compare the results generated by Pix2Pix with CycleGAN</li>
+      <li>We will improve the results generated by the models by tackling the shortcomings using techniques such as Hyperparameter tuning.</li>
+      </li>
+      </ul>
+    -->
+  </section>
+  
+<section>
+  <h2>EVALUATION</h2>
   <p>Our evaluation process for Japanese-to-English font style transfer employed a carefully curated dataset comprising pairs of Japanese text images and their corresponding English translations, encompassing diverse font styles.
     Our evaluation for Pix2Pix is based on the following:</p>
     <h4><u>EVALUATION METRICS</u></h4>
@@ -171,15 +197,7 @@ of any paired training examples. The key difference here from pix2pix is that th
     </li>
     </ul>
 
-    <h3 style="color: teal;">NEXT STEPS</h3>
-    For the next steps, we plan on doing the following to bring the project to completion:
-    <ul>
-    <li>We will train and generate results from another state of the art model, CycleGAN as mentinoned in the proposed methods.</li>
-    <li>We'll compare the results generated by Pix2Pix with CycleGAN</li>
-    <li>We will improve the results generated by the models by tackling the shortcomings using techniques such as Hyperparameter tuning.</li>
-    </li>
-    </ul>
-  </section>
+</section>
 
 <section id="references">
 <h2>References</h2>
